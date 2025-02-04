@@ -1,0 +1,11 @@
+{
+	"EnableDebugging": false,
+	"Enable": true,
+    	"Mysql": {
+        "MysqlHost": "localhost",
+        "MysqlUser": "root",
+        "MysqlPass": "",
+        "MysqlDB": "",
+        "MysqlPort": 3306
+    }
+}

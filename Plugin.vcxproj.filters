@@ -82,6 +82,9 @@
     <Filter Include="Header Files\ArkServerApi\Logger\spdlog\sinks">
       <UniqueIdentifier>{ae16daa8-ba3e-43da-b2e2-707db4f99633}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Configs">
+      <UniqueIdentifier>{38997878-fcb6-4686-aa18-db2988af6caf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Plugin.cpp">
@@ -524,5 +527,13 @@
     <ClInclude Include="extern\ArkServerApi\version\Core\Public\Logger\spdlog\sinks\windebug_sink.h">
       <Filter>Header Files\ArkServerApi\Logger\spdlog\sinks</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="configs\config.json">
+      <Filter>Configs</Filter>
+    </None>
+    <None Include="configs\PluginInfo.json">
+      <Filter>Configs</Filter>
+    </None>
   </ItemGroup>
 </Project>
