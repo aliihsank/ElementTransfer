@@ -15,9 +15,6 @@ bool enableDebugging;
 
 daotk::mysql::connection db_;
 
-int elementStackSize = 1000000;
-int shardStackSize = 2000;
-
 FString elementBP = "Blueprint'/Game/PrimalEarth/CoreBlueprints/Resources/PrimalItemResource_Element.PrimalItemResource_Element'";
 FString elementShardBP = "Blueprint'/Game/PrimalEarth/CoreBlueprints/Resources/PrimalItemResource_ElementShard.PrimalItemResource_ElementShard'";
 
@@ -154,28 +151,24 @@ void Download(AShooterPlayerController* player_controller, FString* message, ECh
 
 		db_.query(fmt::format("DELETE FROM ElementTransferPlayers WHERE SteamId = {};", steam_id));
 
-		while (element_count > 0) {
-			int tmp = element_count;
-			if (tmp > elementStackSize) {
-				tmp = elementStackSize;
+		UPrimalInventoryComponent* playerInventory = player_controller->GetPlayerInventoryComponent();
+		if (playerInventory)
+		{
+			if (element_count > 0) 
+			{
+				FString elementFblueprint(elementBP.ToString().c_str());
+				UClass* elementItemClass = UVictoryCore::BPLoadClass(&elementFblueprint);
+
+				playerInventory->IncrementItemTemplateQuantity(elementItemClass, element_count, true, false, nullptr, nullptr, false, false, false, false, true, false, true);
 			}
 
-			element_count -= tmp;
+			if (element_shard_count > 0) 
+			{
+				FString elementShardFblueprint(elementShardBP.ToString().c_str());
+				UClass* elementShardItemClass = UVictoryCore::BPLoadClass(&elementShardFblueprint);
 
-			TArray<UPrimalItem*> out_items;
-			player_controller->GiveItem(&out_items, &elementBP, tmp, 0, false, false, 0);
-		}
-
-		while (element_shard_count > 0) {
-			int tmp = element_shard_count;
-			if (tmp > shardStackSize) {
-				tmp = shardStackSize;
+				playerInventory->IncrementItemTemplateQuantity(elementShardItemClass, element_shard_count, true, false, nullptr, nullptr, false, false, false, false, true, false, true);
 			}
-
-			element_shard_count -= tmp;
-
-			TArray<UPrimalItem*> out_items;
-			player_controller->GiveItem(&out_items, &elementShardBP, tmp, 0, false, false, 0);
 		}
 	}
 	catch (const std::exception& error)
